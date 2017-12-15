@@ -28,3 +28,13 @@ while(1):
     elif k == 27:
         break
 cv2.destroyAllWindows()
+filename='data.txt'
+file=open(filename,'w')
+file.write('test\n')
+for i in arr:
+    file.write(str(i.pt[0]))
+    file.write(' ')
+    file.write(str(i.pt[1]))
+    file.write('\n')
+#file.write(arr)
+file.close()
