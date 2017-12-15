@@ -5,7 +5,6 @@ using std::string;
 using std::ifstream;
 using std::ofstream;
 using std::endl;
-using std::cin;
 using std::cout;
 
 #define MAX_VERTEX 50
@@ -14,10 +13,12 @@ typedef struct vertex {
     int number;
     string name;
     string info;
-    vertex(int n = 0, string str = "", string i = "") {
+    bool is_scene;
+    vertex(int n = 0, string str = "", string i = "", bool s = true) {
         number = n;
         name = str;
         info = i;
+        is_scene = s;
     }
 } vertex;
 
@@ -55,7 +56,71 @@ public:
         }
     }
 
-    // 测试用的函数，用来初始化数据
+    bool ReadFromFile(string url) {
+        // 打开数据文档
+        ifstream file;
+        file.open(url);
+        //打开文档失败，返回false
+        if(!file)
+            return false;
+
+        //处理数据并存储，最终返回true
+        string temp = "";
+        int pos1 = 0;
+        int pos2 = 0;
+        file >> temp >> vertex_num >> temp;
+        for(int i = 0; i < vertex_num; i++) {
+            vertex_list[i] = new vertex;
+            file >> vertex_list[i]->number;
+            getline(file, temp);
+            getline(file, vertex_list[i]->name);
+            getline(file, vertex_list[i]->info);
+            file >> vertex_list[i]->is_scene;
+        }
+        file >> temp >> edge_num >> temp;
+        for(int i = 0; i < edge_num; i++) {
+            file >> pos1 >> pos2;
+            adjacency_matrix[pos1][pos2] = new edge;
+            file >> adjacency_matrix[pos1][pos2]->weight
+                 >> adjacency_matrix[pos1][pos2]->is_pavement
+                 >> adjacency_matrix[pos1][pos2]->is_driveway;
+            adjacency_matrix[pos2][pos1] = adjacency_matrix[pos1][pos2];
+        }
+        file.close();
+        return true;
+    }
+    bool WriteToFile(string url) {
+        // 打开数据文档
+        ofstream file;
+        file.open(url);
+
+        // 写入数据
+        file << "vertex_num: " << vertex_num << endl << endl
+             << "vertex_list(number,name,info,scene?):" << endl << endl;
+        for(int i = 0; i < vertex_num; i++) {
+            file << vertex_list[i]->number << endl
+                 << vertex_list[i]->name << endl
+                 << vertex_list[i]->info << endl
+                 << vertex_list[i]->is_scene << endl << endl;
+        }
+        file << "edge_num: " << edge_num << endl << endl
+             << "edge_list(vertex1,vertex2,weight,pavement?driveway?):" << endl;
+        for(int i = 0; i < vertex_num; i++) {
+            for(int j = i; j < vertex_num; j++) {
+                if(adjacency_matrix[i][j] != nullptr) {
+                    edge* pointer = adjacency_matrix[i][j];
+                    file << i <<" "<< j <<" "<< pointer->weight <<" "
+                         << pointer->is_pavement <<" "<< pointer->is_driveway
+                         << endl;
+                }
+            }
+        }
+        file.close();
+        return true;
+    }
+
+    // 测试用的函数
+    // 用来初始化数据
     void init() {
         //init
         vertex_num = 5;
@@ -91,60 +156,14 @@ public:
         return;
     }
 
-    bool ReadFromFile(string url) {
-        // 打开数据文档
-        ifstream file;
-        file.open(url);
-
-        //处理数据并存储
-        string temp = "";
-        char c = 0;
-        file >> temp >> vertex_num >> temp;
-        for(int i = 0; i < vertex_num; i++) {
-            vertex_list[i] = new vertex;
-            file >> vertex_list[i]->number;
-            cout << vertex_list[i]->number;
-            getline(file, vertex_list[i]->name);
-            cout << vertex_list[i]->name;
-            getline(file, vertex_list[i]->info);
-            file >> c >> c;
-        }
-    }
-    bool WriteToFile(string url) {
-        // 打开数据文档
-        ofstream file;
-        file.open(url);
-
-        // 写入数据
-        file << "vertex_num: " << vertex_num << endl << endl
-             << "vertex_list(number,name,info):" << endl << endl;
-        for(int i = 0; i < vertex_num; i++) {
-            file << vertex_list[i]->number << endl
-                 << vertex_list[i]->name << endl
-                 << vertex_list[i]->info << endl << endl;
-        }
-        file << "edge_num: " << edge_num << endl << endl
-             << "edge_list(vertex1,vertex2,weight,pavement?driveway?):" << endl;
-        for(int i = 0; i < vertex_num; i++) {
-            for(int j = i; j < vertex_num; j++) {
-                if(adjacency_matrix[i][j] != nullptr) {
-                    edge* pointer = adjacency_matrix[i][j];
-                    file << i <<" "<< j <<" "<< pointer->weight <<" "
-                         << pointer->is_pavement <<" "<< pointer->is_driveway
-                         << endl;
-                }
-            }
-        }
-        file.close();
-        return true;
-    }
-
+    // 用以输出
     void test_print() {
         cout << "vertex_num: " << vertex_num << endl
              << "edge_num: " << edge_num << endl << endl;
         for(int i = 0; i < vertex_num; i++) {
-            cout << vertex_list[i]->number << " " << vertex_list[i]->name;
+            cout << vertex_list[i]->number << " " << vertex_list[i]->name<<endl;
         }
+        cout << endl;
         for(int i = 0; i < vertex_num; i++) {
             for(int j = i; j < vertex_num; j++) {
                 if(adjacency_matrix[i][j] != nullptr) {

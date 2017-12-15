@@ -17,7 +17,7 @@ def draw_point(event,x,y,flags,param):
 #cv2.namedWindow('image',cv2.WINDOW_NORMAL)
 cv2.namedWindow('image')
 img = cv2.imread('1.jpg',0)
-img=cv2.resize(img,(465,519))
+img=cv2.resize(img,(775,865))
 #cv2.setMouseCallback('image',draw_circle)
 cv2.setMouseCallback('image',draw_point)
 while(1):
