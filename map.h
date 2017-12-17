@@ -1,11 +1,13 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 using std::string;
 using std::ifstream;
 using std::ofstream;
 using std::endl;
 using std::cout;
+using std::vector;
 
 #define MAX_VERTEX 50
 
@@ -119,6 +121,68 @@ public:
         return true;
     }
 
+    vector<int> fina_a_path(int start, int end) {
+    }
+
+    // 用Dijkstra算法找出起点到其余所有结点的最短路径
+    vector<vector<int>> find_all_path(int start) {
+        // 初始化要用到的数据
+        vector<vector<int>> allPath;    // 用以保存所有路径，每个vec<int>就是一条
+        vector<int> temp(start);        // 一开始每条路径起点都是start
+        bool visited[vertex_num];       // 判断是否已找到结点的最短路径
+        int distance[vertex_num] = {0}; // 起点到每条路径的距离长度，0为无法到达
+        int small_pos = -1;             // 用来寻找distance数组中最小值的下标
+        // 循环一下，初始化数值
+        for(int i = 0; i < vertex_num; i++) {
+            allPath.push_back(temp);
+            visited[i] = false;
+            if(adjacency_matrix[start][i] == nullptr)
+                distance[i] = 0;
+            else
+                distance[i] = adjacency_matrix[start][i]->weight;
+        }
+        visited[start] = true;
+
+        // Dijkstra算法，开始！
+        for(int i = 1; i < vertex_num; i++) {
+            // 先找出其它结点中距离起点最近的，而且还没visited的一个结点
+            small_pos = -1;
+            for(int j = 0; j < vertex_num; j++) {
+                if((distance[j] == 0) || (visited[j]))
+                    continue;
+                if(distance[j] < distance[small_pos])
+                    small_pos = j;
+            }
+            if(small_pos == -1)
+                break;
+
+            // 将该结点添加到所有路径中，更新所有距离，并确定该结点现在路径为最短路径
+            for(int j = 0; j < vertex_num; j++) {
+                if(visited[j])
+                    continue;
+                allPath[j].push_back(small_pos);
+                if(get_distance(allPath[j]) > distance[j])
+                    allPath[j].pop_back();
+                else
+                    distance[j] = get_distance(allPath[j]);
+            }
+            visited[small_pos] = true;
+        }
+        return allPath;
+    }
+
+    // 计算一条路径的长度
+    int get_distance(const vector<int>& path) {
+        int distance = 0;
+        for(int i = 0; i < path.size()-1; i++) {
+            if(adjacency_matrix[i][i+1] == nullptr)
+                return 0;
+            else
+                distance += adjacency_matrix[i][i+1]->weight;
+        }
+        return distance;
+    }
+
     // 测试用的函数
     // 用来初始化数据
     void init() {
@@ -155,7 +219,6 @@ public:
 
         return;
     }
-
     // 用以输出
     void test_print() {
         cout << "vertex_num: " << vertex_num << endl
@@ -171,6 +234,13 @@ public:
                     cout << adjacency_matrix[i][j]->weight << endl;
                 }
             }
+        }
+        cout << endl << endl;
+        std::vector<vector<int>> v = find_all_path(0);
+        for(int i = 0; i < v.size(); i++) {
+            for(int j = 0; j < v[i].size(); j++)
+                cout << v[i][j] << " ";
+            cout << endl;
         }
     }
 
