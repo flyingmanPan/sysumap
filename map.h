@@ -57,7 +57,7 @@ public:
                 delete vertex_list[i];
         }
     }
-
+    // wtf
     bool ReadFromFile(string url) {
         // 打开数据文档
         ifstream file;
