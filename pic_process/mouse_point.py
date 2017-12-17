@@ -4,7 +4,7 @@ drawing = False # true if mouse is pressed
 mode = True # if True, draw rectangle. Press 'm' to toggle to curve
 ix,iy = -1,-1
 arr=[]
-
+tot=[]
 def draw_point(event,x,y,flags,param):
     global ix,iy,drawing
     if event==cv2.EVENT_LBUTTONDOWN:
@@ -30,11 +30,15 @@ while(1):
 cv2.destroyAllWindows()
 filename='data.txt'
 file=open(filename,'w')
-file.write('test\n')
+count=0
+
 for i in arr:
+    file.write(str(count))
+    file.write(' ')
     file.write(str(i.pt[0]))
     file.write(' ')
     file.write(str(i.pt[1]))
     file.write('\n')
+    count+=1
 #file.write(arr)
 file.close()
