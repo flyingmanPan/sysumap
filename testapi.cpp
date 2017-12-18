@@ -7,6 +7,7 @@ int main(void) {
     //obj.init();
     //obj.WriteToFile(url);
 	//obj.test_print();
-    obj.z_test();
+    //obj.z_test();
+    cout<<obj.getX(1);
     return 0;
 }

@@ -84,6 +84,18 @@ public:
             file >> vertex_list[i]->is_scene;
         }
         */
+
+
+        /*
+        --------------ZZZZZZZ---------------
+            modify the old reading function,
+            read all info in only one row,
+            if the last signal is true which means there is extra info, 
+            read the next line as infomation
+
+
+
+        */
         file >> temp >> vertex_num;
         for(int i = 0; i < vertex_num; i++) {
             vertex_list[i] = new vertex;
@@ -320,6 +332,18 @@ public:
             }
         }
         cout << endl << endl;
+    }
+
+
+    //-----------ZZZZZ-------
+
+    int getX(int num)
+    {
+        return vertex_list[num]->x;
+    }
+    int getY(int num)
+    {
+        return vertex_list[num]->y;
     }
 
 private:
