@@ -345,6 +345,10 @@ public:
     {
         return vertex_list[num]->y;
     }
+    vertex* getP(int num)
+    {
+        return vertex_list[num];
+    } 
 
 private:
     //const int MAX_VERTEX = 50;  //最大结点数量
