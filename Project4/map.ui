@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>MapWidget</class>
+ <widget class="QWidget" name="MapWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,20 +11,31 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#MainWindow {
+   <string notr="true">#MapWidget {
 	border-image:url(E:/Programming/Data Structure/Project4/sysumap/Project4/map.jpg)
 }
 
-#MainWindow *{
+#MapWidget *{
 	border-image: url()
 }</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>560</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
+  </widget>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>

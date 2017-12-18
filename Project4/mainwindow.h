@@ -17,6 +17,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+protected:
+void paintEvent(QPaintEvent *);
+private slots:
+void on_pushButton_clicked();
 };
 
 #endif // MAINWINDOW_H
