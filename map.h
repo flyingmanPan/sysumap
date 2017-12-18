@@ -49,7 +49,7 @@ public:
         for(int i = 0; i < vertex_num; i++) {
             for(int j = i; j < vertex_num; j++) {
                 if(adjacency_matrix[i][j] != nullptr) {
-                    delete adjacency_matrix[i][j];
+                    adjacency_matrix[i][j] = nullptr;
                     delete adjacency_matrix[j][i];
                 }
             }
