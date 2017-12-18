@@ -16,6 +16,8 @@ typedef struct vertex {
     string name;
     string info;
     bool is_scene;
+    int x;
+    int y;
     vertex(int n = 0, string str = "", string i = "", bool s = true) {
         number = n;
         name = str;
