@@ -1,17 +1,16 @@
 #include "map.h"
-
+#include<iostream>
+using namespace std;
 int main(void) {
     string url = "data1.txt";
     map obj;
-    cout << obj.ReadFromFile(url);
+    obj.ReadFromFile(url);
     //obj.init();
     //obj.WriteToFile(url);
 	//obj.test_print();
-    //obj.z_test();
-    cout<<obj.getX(1);
+    obj.z_test();
 
-    auto point=obj.getP(1);
-    cout<<point->x;
+    //cout<<obj.getInfo(0);
 
     return 0;
 }

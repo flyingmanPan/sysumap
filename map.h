@@ -73,6 +73,10 @@ public:
         int pos1 = 0;
         int pos2 = 0;
         /*
+            this part is read file from data_out_of_date.txt 
+            wrote by asd
+        */
+        /*
         file >> temp >> vertex_num >> temp;
         
         for(int i = 0; i < vertex_num; i++) {
@@ -93,7 +97,7 @@ public:
             if the last signal is true which means there is extra info, 
             read the next line as infomation
 
-
+            example file is data1.txt
 
         */
         file >> temp >> vertex_num;
@@ -106,7 +110,7 @@ public:
             if(vertex_list[i]->is_scene)
             {
                 getline(file,temp);
-                getline(file, vertex_list[i]->name);
+                getline(file, vertex_list[i]->info);
             }
         }
         
@@ -308,7 +312,7 @@ public:
             cout << endl;
         }
     }
-
+    //-----------ZZZZZ-------
     void z_test()
     {
         //NULL
@@ -319,6 +323,8 @@ public:
             cout << vertex_list[i]->number << " " 
             << vertex_list[i]->x <<" " 
             << vertex_list[i]->y <<endl;
+            if(vertex_list[i]->is_scene)
+                cout<<vertex_list[i]->info<<i<<endl;
         }
         cout << endl;
         for(int i = 0; i < vertex_num; i++) 
@@ -335,7 +341,7 @@ public:
     }
 
 
-    //-----------ZZZZZ-------
+    
 
     int getX(int num)
     {
@@ -344,6 +350,10 @@ public:
     int getY(int num)
     {
         return vertex_list[num]->y;
+    }
+    string getInfo(int num)
+    {
+        return vertex_list[num]->info;
     }
     vertex* getP(int num)
     {
