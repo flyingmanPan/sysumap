@@ -57,7 +57,7 @@ public:
                 delete vertex_list[i];
         }
     }
-    // wtf
+
     bool ReadFromFile(string url) {
         // 打开数据文档
         ifstream file;
@@ -121,6 +121,7 @@ public:
         return true;
     }
 
+    // 找出两点之间的最短路径
     vector<int> fina_a_path(int start, int end) {
     }
 
@@ -128,10 +129,11 @@ public:
     vector<vector<int>> find_all_path(int start) {
         // 初始化要用到的数据
         vector<vector<int>> allPath;    // 用以保存所有路径，每个vec<int>就是一条
-        vector<int> temp(start);        // 一开始每条路径起点都是start
+        vector<int> temp;               // 一开始每条路径起点都是start
+        temp.push_back(start);
         bool visited[vertex_num];       // 判断是否已找到结点的最短路径
         int distance[vertex_num] = {0}; // 起点到每条路径的距离长度，0为无法到达
-        int small_pos = -1;             // 用来寻找distance数组中最小值的下标
+        int small_pos = 0;              // 用来寻找distance数组中最小值的下标
         // 循环一下，初始化数值
         for(int i = 0; i < vertex_num; i++) {
             allPath.push_back(temp);
@@ -146,25 +148,30 @@ public:
         // Dijkstra算法，开始！
         for(int i = 1; i < vertex_num; i++) {
             // 先找出其它结点中距离起点最近的，而且还没visited的一个结点
-            small_pos = -1;
+            small_pos = start;
             for(int j = 0; j < vertex_num; j++) {
                 if((distance[j] == 0) || (visited[j]))
                     continue;
-                if(distance[j] < distance[small_pos])
+                if((distance[j]<distance[small_pos])||(distance[small_pos]==0))
                     small_pos = j;
             }
-            if(small_pos == -1)
-                break;
 
             // 将该结点添加到所有路径中，更新所有距离，并确定该结点现在路径为最短路径
             for(int j = 0; j < vertex_num; j++) {
                 if(visited[j])
                     continue;
                 allPath[j].push_back(small_pos);
-                if(get_distance(allPath[j]) > distance[j])
+                temp = allPath[j];
+                if(temp[temp.size()-1] != j)
+                    temp.push_back(j);
+                if(get_distance(temp) == 0)
+                    allPath[j].pop_back();
+                else if(distance[j] == 0)
+                    distance[j] = get_distance(temp);
+                else if(get_distance(temp) > distance[j])
                     allPath[j].pop_back();
                 else
-                    distance[j] = get_distance(allPath[j]);
+                    distance[j] = get_distance(temp);
             }
             visited[small_pos] = true;
         }
@@ -175,10 +182,10 @@ public:
     int get_distance(const vector<int>& path) {
         int distance = 0;
         for(int i = 0; i < path.size()-1; i++) {
-            if(adjacency_matrix[i][i+1] == nullptr)
+            if(adjacency_matrix[path[i]][path[i+1]] == nullptr)
                 return 0;
             else
-                distance += adjacency_matrix[i][i+1]->weight;
+                distance += adjacency_matrix[path[i]][path[i+1]]->weight;
         }
         return distance;
     }
@@ -210,7 +217,7 @@ public:
         adjacency_matrix[3][0] = adjacency_matrix[0][3];
         adjacency_matrix[4][1] = new edge(24);
         adjacency_matrix[1][4] = adjacency_matrix[4][1];
-        adjacency_matrix[2][3] = new edge(11,1,0);
+        adjacency_matrix[2][3] = new edge(54,1,0);
         adjacency_matrix[3][2] = adjacency_matrix[2][3];
         adjacency_matrix[2][4] = new edge(25);
         adjacency_matrix[4][2] = adjacency_matrix[2][4];
@@ -236,7 +243,8 @@ public:
             }
         }
         cout << endl << endl;
-        std::vector<vector<int>> v = find_all_path(0);
+        vector<vector<int>> v;
+        v = find_all_path(0);
         for(int i = 0; i < v.size(); i++) {
             for(int j = 0; j < v[i].size(); j++)
                 cout << v[i][j] << " ";
