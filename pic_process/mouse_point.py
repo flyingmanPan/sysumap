@@ -102,7 +102,7 @@ cv2.destroyAllWindows()
 filename='data.txt'
 file=open(filename,'w')
 count=0
-file.write('point info ')
+file.write('vertex_num: ')
 file.write(str(len(arr)))
 file.write('\n')
 for i in arr:
@@ -115,8 +115,10 @@ for i in arr:
     count+=1
 
 count=0
-file.write('pair ')
+file.write('edge_num: ')
+
 file.write(str(len(pair)))
+file.write('edge_list(vertex1,vertex2,weight,pavement?driveway?): \n')
 file.write('\n')
 for i in pair:
     file.write(str(i[0]))

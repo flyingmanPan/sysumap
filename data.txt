@@ -3,10 +3,9 @@ vertex_num: 5
 vertex_list(number,name,info):
 
 0
-1
 canteen 1
 go to eat dinner!!
-
+1
 
 1
 canteen 2
