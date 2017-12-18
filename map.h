@@ -30,6 +30,8 @@ typedef struct edge {
     bool is_driveway;
     edge(int w = 0, bool p = false, bool d = false) {
         weight = w;
+        is_pavement = p;
+        is_driveway = d;
     }
 } edge;
 
@@ -119,72 +121,93 @@ public:
         return true;
     }
 
-    // 找出两点之间的最短路径
-    vector<int> fina_a_path(int start, int end) {
+    // 找出两点之间的最短路径，若路径不通则返回一个空的容器
+    // 人行道版本
+    vector<int> find_a_pavement(int start, int end) {
+        auto allPath = find_all_path(start, 1);
+        if(allPath[end].back() == start)
+            return vector<int>();
+        else
+            return allPath[end];
+    }
+    // 车道版本
+    vector<int> find_a_driveway(int start, int end) {
+        auto allPath = find_all_path(start, 0);
+        if(allPath[end].back() == start)
+            return vector<int>();
+        else
+            return allPath[end];
     }
 
-    // 用Dijkstra算法找出起点到其余所有结点的最短路径
-    vector<vector<int>> find_all_pavement(int start) {
+    /* 用Dijkstra算法找出起点到其余所有结点的最短路径
+     * judge == 1, 找人行道路径
+     * judge == 0, 找车道路径
+     */
+    vector<vector<int>> find_all_path(int start, bool judge) {
         // 初始化要用到的数据
         vector<vector<int>> allPath;    // 用以保存所有路径，每个vec<int>就是一条
         vector<int> temp;               // 一开始每条路径起点都是start
         temp.push_back(start);
         bool visited[vertex_num];       // 判断是否已找到结点的最短路径
-        int distance[vertex_num] = {0}; // 起点到每条路径的距离长度，0为无法到达
-        int small_pos = 0;              // 用来寻找distance数组中最小值的下标
+        int distance[vertex_num] = {0}; // 起点到每条路径的距离长度，max为无法到达
+        const int max = 1000000;
+        int small_pos = start;          // 用来寻找distance数组中最小值的下标
         // 循环一下，初始化数值
         for(int i = 0; i < vertex_num; i++) {
             allPath.push_back(temp);
+            if(i != start)
+                allPath[i].push_back(i);
             visited[i] = false;
             if(adjacency_matrix[start][i] == nullptr)
-                distance[i] = 0;
-            else if(!adjacency_matrix[start][i]->is_pavement)
-                distance[i] = 0;
+                distance[i] = max;
+            else if(judge && !adjacency_matrix[start][i]->is_pavement)
+                distance[i] = max;
+            else if(!judge && !adjacency_matrix[start][i]->is_driveway)
+                distance[i] = max;
             else
                 distance[i] = adjacency_matrix[start][i]->weight;
         }
         visited[start] = true;
+
 
         // Dijkstra算法，开始！
         for(int i = 1; i < vertex_num; i++) {
             // 先找出其它结点中距离起点最近的，而且还没visited的一个结点
             small_pos = start;
             for(int j = 0; j < vertex_num; j++) {
-                if((distance[j] == 0) || (visited[j]))
+                if(visited[j])
                     continue;
-                if((distance[j]<distance[small_pos])||(distance[small_pos]==0))
+                if(distance[j] < distance[small_pos])
                     small_pos = j;
             }
+            visited[small_pos] = true;
 
             // 将该结点添加到所有路径中，更新所有距离，并确定该结点现在路径为最短路径
             for(int j = 0; j < vertex_num; j++) {
-                if(visited[j])
+                if((visited[j]) || (adjacency_matrix[small_pos][j] == nullptr)
+                    || (judge && !adjacency_matrix[small_pos][j]->is_pavement)
+                    || (!judge && !adjacency_matrix[small_pos][j]->is_driveway))
                     continue;
-                allPath[j].push_back(small_pos);
-                temp = allPath[j];
-                if(temp[temp.size()-1] != j)
-                    temp.push_back(j);
-                if(get_distance_p(temp) == 0)
-                    allPath[j].pop_back();
-                else if(distance[j] == 0)
-                    distance[j] = get_distance_p(temp);
-                else if(get_distance_p(temp) > distance[j])
-                    allPath[j].pop_back();
-                else
-                    distance[j] = get_distance_p(temp);
+                if(distance[small_pos] + adjacency_matrix[small_pos][j]->weight
+                    < distance[j]) {
+                    allPath[j] = allPath[small_pos];
+                    allPath[j].push_back(j);
+                    distance[j] = get_distance(allPath[j], judge);
+                }
             }
-            visited[small_pos] = true;
         }
         return allPath;
     }
 
-    // 计算一条路径的长度
-    int get_distance_p(const vector<int>& path) {
+    // 计算一条路径的长度；judge==1:人行道；judge==0:车道
+    int get_distance(const vector<int>& path, const bool& judge) {
         int distance = 0;
         for(int i = 0; i < path.size()-1; i++) {
             if(adjacency_matrix[path[i]][path[i+1]] == nullptr)
                 return 0;
-            else if(!adjacency_matrix[path[i]][path[i+1]]->is_pavement)
+            else if(judge && !adjacency_matrix[path[i]][path[i+1]]->is_pavement)
+                return 0;
+            else if(!judge && !adjacency_matrix[path[i]][path[i+1]]->is_driveway)
                 return 0;
             else
                 distance += adjacency_matrix[path[i]][path[i+1]]->weight;
@@ -217,13 +240,13 @@ public:
         adjacency_matrix[1][0] = adjacency_matrix[0][1];
         adjacency_matrix[0][3] = new edge(5,1,1);
         adjacency_matrix[3][0] = adjacency_matrix[0][3];
-        adjacency_matrix[4][1] = new edge(24,1);
+        adjacency_matrix[4][1] = new edge(24,1,1);
         adjacency_matrix[1][4] = adjacency_matrix[4][1];
-        adjacency_matrix[2][3] = new edge(54,1,0);
+        adjacency_matrix[2][3] = new edge(54,1,1);
         adjacency_matrix[3][2] = adjacency_matrix[2][3];
-        adjacency_matrix[2][4] = new edge(25,1);
+        adjacency_matrix[2][4] = new edge(25,1,1);
         adjacency_matrix[4][2] = adjacency_matrix[2][4];
-        adjacency_matrix[3][4] = new edge(23,1,1);
+        adjacency_matrix[3][4] = new edge(23,0,1);
         adjacency_matrix[4][3] = adjacency_matrix[3][4];
 
         return;
@@ -246,7 +269,7 @@ public:
         }
         cout << endl << endl;
         vector<vector<int>> v;
-        v = find_all_pavement(0);
+        v = find_all_path(4,1);
         for(int i = 0; i < v.size(); i++) {
             for(int j = 0; j < v[i].size(); j++)
                 cout << v[i][j] << " ";
