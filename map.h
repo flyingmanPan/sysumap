@@ -73,12 +73,12 @@ public:
         int pos1 = 0;
         int pos2 = 0;
         /*
-            this part is read file from data_out_of_date.txt 
+            this part is read file from data_out_of_date.txt
             wrote by asd
         */
         /*
         file >> temp >> vertex_num >> temp;
-        
+
         for(int i = 0; i < vertex_num; i++) {
             vertex_list[i] = new vertex;
             file >> vertex_list[i]->number;
@@ -94,7 +94,7 @@ public:
         --------------ZZZZZZZ---------------
             modify the old reading function,
             read all info in only one row,
-            if the last signal is true which means there is extra info, 
+            if the last signal is true which means there is extra info,
             read the next line as infomation
 
             example file is data1.txt
@@ -110,12 +110,13 @@ public:
             if(vertex_list[i]->is_scene)
             {
                 getline(file,temp);
+                getline(file, vertex_list[i]->name);
                 getline(file, vertex_list[i]->info);
             }
         }
-        
+
         file >> temp >> edge_num >> temp;
-        
+
         for(int i = 0; i < edge_num; i++) {
             file >> pos1 >> pos2;
             adjacency_matrix[pos1][pos2] = new edge;
@@ -251,6 +252,16 @@ public:
         return distance;
     }
 
+    //
+    int get_number(const string& name) {
+        for(int i = 0; i < vertex_num; i++) {
+            if(vertex_list[i]->name == name) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     // 测试用的函数
     // 用来初始化数据
     void init() {
@@ -318,18 +329,18 @@ public:
         //NULL
         cout << "vertex_num: " << vertex_num << endl
              << "edge_num: " << edge_num << endl << endl;
-        for(int i = 0; i < vertex_num; i++) 
+        for(int i = 0; i < vertex_num; i++)
         {
-            cout << vertex_list[i]->number << " " 
-            << vertex_list[i]->x <<" " 
+            cout << vertex_list[i]->number << " "
+            << vertex_list[i]->x <<" "
             << vertex_list[i]->y <<endl;
             if(vertex_list[i]->is_scene)
                 cout<<vertex_list[i]->info<<i<<endl;
         }
         cout << endl;
-        for(int i = 0; i < vertex_num; i++) 
+        for(int i = 0; i < vertex_num; i++)
         {
-            for(int j = i; j < vertex_num; j++) 
+            for(int j = i; j < vertex_num; j++)
             {
                 if(adjacency_matrix[i][j] != nullptr) {
                     cout << i <<" "<< j <<" ";
@@ -341,7 +352,7 @@ public:
     }
 
 
-    
+
 
     int getX(int num)
     {
@@ -355,10 +366,13 @@ public:
     {
         return vertex_list[num]->info;
     }
+	string getName(int num) {
+		return vertex_list[num]->name;
+	}
     vertex* getP(int num)
     {
         return vertex_list[num];
-    } 
+    }
 
 private:
     //const int MAX_VERTEX = 50;  //最大结点数量
