@@ -3,7 +3,7 @@
 using namespace std;
 int main(void) {
     string url = "data1.txt";
-    map obj;
+    Map obj;
     obj.ReadFromFile(url);
     //obj.init();
     //obj.WriteToFile(url);
