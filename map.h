@@ -12,7 +12,7 @@ using std::endl;
 using std::cout;
 using std::vector;
 
-#define MAX_VERTEX 50
+#define MAX_VERTEX 60
 
 typedef struct vertex {
     int number;
@@ -75,53 +75,26 @@ public:
             string temp = "";
             int pos1 = 0;
             int pos2 = 0;
-            /*
-                this part is read file from data_out_of_date.txt
-                wrote by asd
-            */
-            /*
+            // 读取点的信息
             file >> temp >> vertex_num >> temp;
-
             for(int i = 0; i < vertex_num; i++) {
                 vertex_list[i] = new vertex;
-                file >> vertex_list[i]->number;
-                getline(file, temp);
-                getline(file, vertex_list[i]->name);
-                getline(file, vertex_list[i]->info);
-                file >> vertex_list[i]->is_scene;
-            }
-            */
-
-
-            /*
-            --------------ZZZZZZZ---------------
-                modify the old reading function,
-                read all info in only one row,
-                if the last signal is true which means there is extra info,
-                read the next line as infomation
-
-                example file is data1.txt
-
-            */
-            file >> temp >> vertex_num;
-            for(int i = 0; i < vertex_num; i++) {
-                vertex_list[i] = new vertex;
-                file >> vertex_list[i]->number;
-                cout << "number=" << vertex_list[i]->number << endl;
-                file >> vertex_list[i]->x;
-                file >> vertex_list[i]->y;
-                cout << "(" << vertex_list[i]->x << "," << vertex_list[i]->y << ")" << endl;
-                file >> vertex_list[i]->is_scene;
-                if(vertex_list[i]->is_scene)
-                {
-                    getline(file,temp);
+                file >> vertex_list[i]->number
+                     >> vertex_list[i]->x
+                     >> vertex_list[i]->y
+                     >> vertex_list[i]->is_scene;
+                if(vertex_list[i]->is_scene) {
+                    getline(file, temp);
                     getline(file, vertex_list[i]->name);
                     getline(file, vertex_list[i]->info);
                 }
+                else {
+                    vertex_list[i]->name = "";
+                    vertex_list[i]->info = "";
+                }
             }
-
+            // 读取边的信息
             file >> temp >> edge_num >> temp;
-
             for(int i = 0; i < edge_num; i++) {
                 file >> pos1 >> pos2;
                 adjacency_matrix[pos1][pos2] = new edge;
@@ -142,10 +115,15 @@ public:
         file << "vertex_num: " << vertex_num << endl << endl
              << "vertex_list(number,name,info,scene?):" << endl << endl;
         for(int i = 0; i < vertex_num; i++) {
-            file << vertex_list[i]->number << endl
-                 << vertex_list[i]->name << endl
-                 << vertex_list[i]->info << endl
-                 << vertex_list[i]->is_scene << endl << endl;
+            file << vertex_list[i]->number << " "
+                 << vertex_list[i]->x << " "
+                 << vertex_list[i]->y << " "
+                 << vertex_list[i]->is_scene << endl;
+            if(vertex_list[i]->is_scene) {
+                file << vertex_list[i]->name << endl
+                     << vertex_list[i]->info << endl;
+            }
+            file << endl;
         }
         file << "edge_num: " << edge_num << endl << endl
              << "edge_list(vertex1,vertex2,weight,pavement?driveway?):" << endl;
@@ -258,14 +236,15 @@ public:
     }
 
     // 传入点的名字，返回点的编号；若点不存在，返回-1
-        int get_number(const string& name) {
-            for(int i = 0; i < vertex_num; i++) {
-                if(vertex_list[i]->name == name) {
-                    return i;
-                }
+    int get_number(const string& name) {
+        for(int i = 0; i < vertex_num; i++) {
+            if(vertex_list[i]->name == name) {
+                return i;
             }
-            return -1;
         }
+        return -1;
+    }
+
     // 测试用的函数
     // 用来初始化数据
     void init() {
@@ -309,7 +288,7 @@ public:
         for(int i = 0; i < vertex_num; i++) {
             cout << vertex_list[i]->number << " " << vertex_list[i]->name<<endl;
         }
-        cout << endl;
+        cout << endl;/*
         for(int i = 0; i < vertex_num; i++) {
             for(int j = i; j < vertex_num; j++) {
                 if(adjacency_matrix[i][j] != nullptr) {
@@ -319,13 +298,14 @@ public:
             }
         }
         cout << endl << endl;
+
         vector<vector<int>> v;
         v = find_all_path(4,1);
         for(int i = 0; i < v.size(); i++) {
             for(int j = 0; j < v[i].size(); j++)
                 cout << v[i][j] << " ";
             cout << endl;
-        }
+        }*/
     }
     //-----------ZZZZZ-------
     void z_test()
