@@ -1,3 +1,8 @@
 {
-    "python.pythonPath": "C:\\Users\\panya\\AppData\\Local\\conda\\conda\\envs\\cv\\python.exe"
+    "python.pythonPath": "C:\\Users\\panya\\AppData\\Local\\conda\\conda\\envs\\cv\\python.exe",
+    "files.associations": {
+        "iostream": "cpp",
+        "iosfwd": "cpp",
+        "istream": "cpp"
+    }
 }

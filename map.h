@@ -17,6 +17,8 @@ typedef struct vertex {
     string name;
     string info;
     bool is_scene;
+    int x;
+    int y;
     vertex(int n = 0, string str = "", string i = "", bool s = true) {
         number = n;
         name = str;
@@ -71,7 +73,13 @@ public:
         string temp = "";
         int pos1 = 0;
         int pos2 = 0;
+        /*
+            this part is read file from data_out_of_date.txt 
+            wrote by asd
+        */
+        /*
         file >> temp >> vertex_num >> temp;
+        
         for(int i = 0; i < vertex_num; i++) {
             vertex_list[i] = new vertex;
             file >> vertex_list[i]->number;
@@ -80,7 +88,35 @@ public:
             getline(file, vertex_list[i]->info);
             file >> vertex_list[i]->is_scene;
         }
+        */
+
+
+        /*
+        --------------ZZZZZZZ---------------
+            modify the old reading function,
+            read all info in only one row,
+            if the last signal is true which means there is extra info, 
+            read the next line as infomation
+
+            example file is data1.txt
+
+        */
+        file >> temp >> vertex_num;
+        for(int i = 0; i < vertex_num; i++) {
+            vertex_list[i] = new vertex;
+            file >> vertex_list[i]->number;
+            file >> vertex_list[i]->x;
+            file >> vertex_list[i]->y;
+            file >> vertex_list[i]->is_scene;
+            if(vertex_list[i]->is_scene)
+            {
+                getline(file,temp);
+                getline(file, vertex_list[i]->info);
+            }
+        }
+        
         file >> temp >> edge_num >> temp;
+        
         for(int i = 0; i < edge_num; i++) {
             file >> pos1 >> pos2;
             adjacency_matrix[pos1][pos2] = new edge;
@@ -144,9 +180,9 @@ public:
      * judge == 1, 找人行道路径
      * judge == 0, 找车道路径
      */
-    vector<vector<int>> find_all_path(int start, bool judge) {
+    vector<vector<int> > find_all_path(int start, bool judge) {
         // 初始化要用到的数据
-        vector<vector<int>> allPath;    // 用以保存所有路径，每个vec<int>就是一条
+        vector<vector<int> > allPath;    // 用以保存所有路径，每个vec<int>就是一条
         vector<int> temp;               // 一开始每条路径起点都是start
         temp.push_back(start);
         bool visited[vertex_num];       // 判断是否已找到结点的最短路径
@@ -277,6 +313,53 @@ public:
             cout << endl;
         }
     }
+    //-----------ZZZZZ-------
+    void z_test()
+    {
+        //NULL
+        cout << "vertex_num: " << vertex_num << endl
+             << "edge_num: " << edge_num << endl << endl;
+        for(int i = 0; i < vertex_num; i++) 
+        {
+            cout << vertex_list[i]->number << " " 
+            << vertex_list[i]->x <<" " 
+            << vertex_list[i]->y <<endl;
+            if(vertex_list[i]->is_scene)
+                cout<<vertex_list[i]->info<<i<<endl;
+        }
+        cout << endl;
+        for(int i = 0; i < vertex_num; i++) 
+        {
+            for(int j = i; j < vertex_num; j++) 
+            {
+                if(adjacency_matrix[i][j] != nullptr) {
+                    cout << i <<" "<< j <<" ";
+                    cout << adjacency_matrix[i][j]->weight << endl;
+                }
+            }
+        }
+        cout << endl << endl;
+    }
+
+
+    
+
+    int getX(int num)
+    {
+        return vertex_list[num]->x;
+    }
+    int getY(int num)
+    {
+        return vertex_list[num]->y;
+    }
+    string getInfo(int num)
+    {
+        return vertex_list[num]->info;
+    }
+    vertex* getP(int num)
+    {
+        return vertex_list[num];
+    } 
 
 private:
     //const int MAX_VERTEX = 50;  //最大结点数量

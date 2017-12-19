@@ -1,0 +1,35 @@
+vertex_num: 5
+
+vertex_list(number,name,info):
+
+0
+canteen 1
+go to eat dinner!!
+1
+
+1
+canteen 2
+go to eat lunch!!
+0
+
+2
+library
+for books
+
+3
+doom
+nothing
+
+4
+home
+WTF?
+
+edge_num: 6
+
+edge_list(vertex1,vertex2,weight,pavement?driveway?):
+0 1 23 0 1
+0 3 5 1 1
+1 4 24 0 0
+2 3 11 1 0
+2 4 25 0 0
+3 4 23 1 1
