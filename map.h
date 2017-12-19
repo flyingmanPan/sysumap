@@ -9,6 +9,7 @@ using std::endl;
 using std::cout;
 using std::vector;
 
+
 #define MAX_VERTEX 50
 
 typedef struct vertex {
