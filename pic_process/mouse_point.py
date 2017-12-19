@@ -14,10 +14,10 @@ def drawFunc(event,x,y,flags,param):
         ix,iy=x,y
     elif event == cv2.EVENT_MBUTTONUP:
         print(ix,iy,len(arr))
-        inputString=input(':')
+        '''#inputString=input(':')
         if len(inputString)!=0:
             tempPair={len(arr),inputString}
-            data.append(tempPair)
+            data.append(tempPair)'''
         isNear=False
         for i in arr:
             dis=(i.pt[0]-ix)*(i.pt[0]-ix)+(i.pt[1]-iy)*(i.pt[1]-iy)
@@ -47,6 +47,7 @@ def drawFunc(event,x,y,flags,param):
                 break
             num2+=1
         pair.append([num1,num2,1,0])
+        print('Pathway',num1,num2)
         #line.append([ix,iy,ix2,iy2])
         line.append([
             int(arr[num1].pt[0]),
@@ -74,6 +75,7 @@ def drawFunc(event,x,y,flags,param):
                 break
             num2+=1
         pair.append([num1,num2,0,1])
+        print('Road',num1,num2)
         #line.append([ix,iy,ix2,iy2])
         line.append([
             int(arr[num1].pt[0]),
@@ -84,7 +86,7 @@ def drawFunc(event,x,y,flags,param):
 
 
 cv2.namedWindow('image')
-img = cv2.imread('1.jpg',0)
+img = cv2.imread('east.jpg')
 img=cv2.resize(img,(775,865))
 cv2.setMouseCallback('image',drawFunc)
 while(1):
