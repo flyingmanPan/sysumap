@@ -95,7 +95,7 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;aaaa&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QTextBrowser" name="Info">
@@ -106,19 +106,6 @@ p, li { white-space: pre-wrap; }
       <width>111</width>
       <height>161</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton">
-    <property name="geometry">
-     <rect>
-      <x>263</x>
-      <y>653</y>
-      <width>95</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>RadioButton</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -176,6 +163,9 @@ p, li { white-space: pre-wrap; }
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
    </widget>
    <widget class="QPushButton" name="StartDrive">
     <property name="geometry">
@@ -211,7 +201,7 @@ p, li { white-space: pre-wrap; }
 </string>
     </property>
     <property name="text">
-     <string>出发地不存在！请重新输入</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="EndPtnError">
@@ -234,7 +224,7 @@ p, li { white-space: pre-wrap; }
 }</string>
     </property>
     <property name="text">
-     <string>目的地不存在！请重新输入</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="StartWalk">
@@ -248,6 +238,58 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="text">
      <string>开始导航(步行)</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="NorthGate">
+    <property name="geometry">
+     <rect>
+      <x>504</x>
+      <y>81</y>
+      <width>95</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>North Gate</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="WestGate">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>745</y>
+      <width>95</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>West Gate</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="CrossRoad">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>310</y>
+      <width>95</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cross Road</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="ZhiEr">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>400</y>
+      <width>95</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ZhiEr</string>
     </property>
    </widget>
   </widget>

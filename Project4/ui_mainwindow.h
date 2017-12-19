@@ -33,7 +33,6 @@ public:
     QLabel *label_2;
     QTextBrowser *Location;
     QTextBrowser *Info;
-    QRadioButton *radioButton;
     QLabel *label_3;
     QLabel *label_4;
     QLineEdit *StartPtn;
@@ -42,6 +41,10 @@ public:
     QLabel *startPtnError;
     QLabel *EndPtnError;
     QPushButton *StartWalk;
+    QRadioButton *NorthGate;
+    QRadioButton *WestGate;
+    QRadioButton *CrossRoad;
+    QRadioButton *ZhiEr;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -81,9 +84,6 @@ public:
         Info = new QTextBrowser(centralWidget);
         Info->setObjectName(QStringLiteral("Info"));
         Info->setGeometry(QRect(850, 690, 111, 161));
-        radioButton = new QRadioButton(centralWidget);
-        radioButton->setObjectName(QStringLiteral("radioButton"));
-        radioButton->setGeometry(QRect(263, 653, 95, 20));
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setGeometry(QRect(780, 33, 71, 31));
@@ -98,6 +98,7 @@ public:
         EndPtn = new QLineEdit(centralWidget);
         EndPtn->setObjectName(QStringLiteral("EndPtn"));
         EndPtn->setGeometry(QRect(850, 73, 101, 31));
+        EndPtn->setStyleSheet(QStringLiteral(""));
         StartDrive = new QPushButton(centralWidget);
         StartDrive->setObjectName(QStringLiteral("StartDrive"));
         StartDrive->setGeometry(QRect(780, 120, 181, 41));
@@ -121,6 +122,18 @@ public:
         StartWalk = new QPushButton(centralWidget);
         StartWalk->setObjectName(QStringLiteral("StartWalk"));
         StartWalk->setGeometry(QRect(780, 170, 181, 41));
+        NorthGate = new QRadioButton(centralWidget);
+        NorthGate->setObjectName(QStringLiteral("NorthGate"));
+        NorthGate->setGeometry(QRect(504, 81, 95, 20));
+        WestGate = new QRadioButton(centralWidget);
+        WestGate->setObjectName(QStringLiteral("WestGate"));
+        WestGate->setGeometry(QRect(350, 745, 95, 20));
+        CrossRoad = new QRadioButton(centralWidget);
+        CrossRoad->setObjectName(QStringLiteral("CrossRoad"));
+        CrossRoad->setGeometry(QRect(530, 310, 95, 20));
+        ZhiEr = new QRadioButton(centralWidget);
+        ZhiEr->setObjectName(QStringLiteral("ZhiEr"));
+        ZhiEr->setGeometry(QRect(440, 400, 95, 20));
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
@@ -138,14 +151,17 @@ public:
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">aaaa</span></p></body></html>", Q_NULLPTR));
-        radioButton->setText(QApplication::translate("MainWindow", "RadioButton", Q_NULLPTR));
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", Q_NULLPTR));
         label_3->setText(QApplication::translate("MainWindow", "\345\207\272\345\217\221\345\234\260", Q_NULLPTR));
         label_4->setText(QApplication::translate("MainWindow", "\347\233\256\347\232\204\345\234\260", Q_NULLPTR));
         StartDrive->setText(QApplication::translate("MainWindow", "\345\274\200\345\247\213\345\257\274\350\210\252(\351\251\276\351\251\266)", Q_NULLPTR));
-        startPtnError->setText(QApplication::translate("MainWindow", "\345\207\272\345\217\221\345\234\260\344\270\215\345\255\230\345\234\250\357\274\201\350\257\267\351\207\215\346\226\260\350\276\223\345\205\245", Q_NULLPTR));
-        EndPtnError->setText(QApplication::translate("MainWindow", "\347\233\256\347\232\204\345\234\260\344\270\215\345\255\230\345\234\250\357\274\201\350\257\267\351\207\215\346\226\260\350\276\223\345\205\245", Q_NULLPTR));
+        startPtnError->setText(QString());
+        EndPtnError->setText(QString());
         StartWalk->setText(QApplication::translate("MainWindow", "\345\274\200\345\247\213\345\257\274\350\210\252(\346\255\245\350\241\214)", Q_NULLPTR));
+        NorthGate->setText(QApplication::translate("MainWindow", "North Gate", Q_NULLPTR));
+        WestGate->setText(QApplication::translate("MainWindow", "West Gate", Q_NULLPTR));
+        CrossRoad->setText(QApplication::translate("MainWindow", "Cross Road", Q_NULLPTR));
+        ZhiEr->setText(QApplication::translate("MainWindow", "ZhiEr", Q_NULLPTR));
     } // retranslateUi
 
 };

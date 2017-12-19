@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QPoint>
 #include <vector>
+#include <QButtonGroup>
 
 using namespace std;
 
@@ -29,7 +30,7 @@ private:
     QPoint stratPtn;
     QPoint endPtn;
     vector<myLine*> lines;
-
+    QButtonGroup *btnGroupLocation;
 
 protected:
 void paintEvent(QPaintEvent *);
