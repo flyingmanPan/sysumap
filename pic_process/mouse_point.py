@@ -7,12 +7,17 @@ line=[]
 line_len=0
 pair=[]
 pair_len=0
+data=[]
 def drawFunc(event,x,y,flags,param):
     global ix,iy,drawing
     if event==cv2.EVENT_MBUTTONDOWN:
         ix,iy=x,y
     elif event == cv2.EVENT_MBUTTONUP:
         print(ix,iy,len(arr))
+        inputString=input(':')
+        if len(inputString)!=0:
+            tempPair={len(arr),inputString}
+            data.append(tempPair)
         isNear=False
         for i in arr:
             dis=(i.pt[0]-ix)*(i.pt[0]-ix)+(i.pt[1]-iy)*(i.pt[1]-iy)
