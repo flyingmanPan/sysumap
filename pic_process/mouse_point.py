@@ -12,16 +12,14 @@ def drawFunc(event,x,y,flags,param):
     if event==cv2.EVENT_MBUTTONDOWN:
         ix,iy=x,y
     elif event == cv2.EVENT_MBUTTONUP:
-        print(ix,iy)
+        print(ix,iy,len(arr))
         isNear=False
         for i in arr:
             dis=(i.pt[0]-ix)*(i.pt[0]-ix)+(i.pt[1]-iy)*(i.pt[1]-iy)
             dis=dis**(0.5)
-            print("dis",dis)
-            if dis<= 10:
+            if dis<= 5:
                 isNear=True
         if isNear==False:
-            print("append")
             arr.append(cv2.KeyPoint(ix,iy,1))
 
     global ix2,iy2
