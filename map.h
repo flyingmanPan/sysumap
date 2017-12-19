@@ -216,6 +216,10 @@ public:
                 }
             }
         }
+        for(int i = 0; i < vertex_num; i++) {
+            if(distance[i]==max && i!=start)
+                allPath[i].pop_back();
+        }
         return allPath;
     }
 
@@ -334,8 +338,6 @@ public:
         }
         cout << endl << endl;
     }
-
-
 
 
     int getX(int num)
