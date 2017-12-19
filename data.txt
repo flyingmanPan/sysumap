@@ -166,7 +166,11 @@ sleep
 
 57 450 636 0
 
+<<<<<<< HEAD
 edge_num: 90
+=======
+edge_num: 74
+>>>>>>> e8dd6cd01d3915d6c3c1c4aaf0ced908b5092301
 
 edge_list(vertex1,vertex2,weight,pavement?driveway?):
 0 1 181 1 0
